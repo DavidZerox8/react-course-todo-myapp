@@ -9,11 +9,11 @@ function App() {
 
   return (
     <>      
-      <TodoCounter />
+      <TodoCounter completedTodos={5} totalTodos={20} /> {/* Pass the props to the component */}      
       <TodoSearch />
 
       <TodoList>
-        <TodoItem />
+        <TodoItem /> {/* Add the component as a props.children of the TodoList component */}
         <TodoItem />
         <TodoItem />
       </TodoList>   
