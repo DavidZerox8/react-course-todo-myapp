@@ -1,7 +1,7 @@
 function TodoSearch() 
 {
     return(
-        <input placeholder="Search task" />
+        <input id="search" name="search" className="input" placeholder="Search task" />
     );
 }
 

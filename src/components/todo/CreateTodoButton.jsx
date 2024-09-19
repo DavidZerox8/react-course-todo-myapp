@@ -1,6 +1,6 @@
 function CreateTodoButton() {
     return(
-        <button>
+        <button className="btn btn-add-todo">
         +
         </button>
     );
