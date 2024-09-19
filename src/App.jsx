@@ -41,6 +41,20 @@ function App() {
     return textTodo.includes(searchText); // Return the todos that include the search value
   }); // Filter the todos that include the search value
 
+  const todoCompleted = (todoID) => {
+    const newsTodos = [...todos]; // Copy the todos array
+    const todoIndex = newsTodos.findIndex(todo => todo.id === todoID); // Find the index of the todo to update
+    newsTodos[todoIndex].completed = !newsTodos[todoIndex].completed; // Update the completed value of the todo
+    setTodos(newsTodos); // Update the todos state
+  };
+
+  const todoDeleted = (todoID) => {
+    const newsTodos = [...todos]; // Copy the todos array
+    const todoIndex = newsTodos.findIndex(todo => todo.id === todoID); // Find the index of the todo to delete
+    newsTodos.splice(todoIndex, 1); // Delete the todo | The second parameter is the number of elements to delete
+    setTodos(newsTodos); // Update the todos state
+  };
+
   return (
     <>      
       <div className='flex'>
@@ -77,7 +91,13 @@ function App() {
 
           <TodoList>
             {searchedTodos.map(todo => (
-              <TodoItem key={todo.id} text={todo.text} completed={todo.completed} />
+              <TodoItem 
+                key={todo.id} 
+                text={todo.text} 
+                completed={todo.completed} 
+                onCompleted={() => todoCompleted(todo.id)} 
+                onDeleted={() => todoDeleted(todo.id)}
+              />
             ))}
           </TodoList>          
         </div>
