@@ -34,8 +34,7 @@ function App() {
   //Derived state | Estado derivados
   const completedTodos = todos.filter(todo => !!todo.completed).length; // Filter the todos that are completed and get the length of the array | The !! is used to convert the value to a boolean
   const totalTodos     = todos.length; // Get the length of the todos array
-
-  const [filteredTodos, setFilteredTodos] = React.useState(todos); // Create a state to store the filtered todos, and a function to update it | The initial value is the todos array
+  const searchedTodos  = todos.filter(todo => todo.text.toLowerCase().includes(searchValue.toLowerCase())); // Filter the todos that include the search value
 
   return (
     <>      
@@ -67,12 +66,12 @@ function App() {
               <TodoCounter completedTodos={completedTodos} totalTodos={totalTodos} /> {/* Pass the props to the component */}                      
             </div>
             <div>
-              <TodoSearch defautlTodos={defautlTodos} searchValue={searchValue} setSearchValue={setSearchValue} filteredTodos={filteredTodos} setFilteredTodos={setFilteredTodos} />
+              <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
             </div>
           </div>
 
           <TodoList>
-            {filteredTodos.map(todo => (
+            {searchedTodos.map(todo => (
               <TodoItem key={todo.id} text={todo.text} completed={todo.completed} />
             ))}
           </TodoList>          
