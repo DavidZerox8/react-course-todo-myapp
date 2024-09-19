@@ -34,7 +34,12 @@ function App() {
   //Derived state | Estado derivados
   const completedTodos = todos.filter(todo => !!todo.completed).length; // Filter the todos that are completed and get the length of the array | The !! is used to convert the value to a boolean
   const totalTodos     = todos.length; // Get the length of the todos array
-  const searchedTodos  = todos.filter(todo => todo.text.toLowerCase().includes(searchValue.toLowerCase())); // Filter the todos that include the search value
+  const searchedTodos  = todos.filter(todo => {
+    const textTodo   = todo.text.toLowerCase(); // Convert the text of the todo to lowercase
+    const searchText = searchValue.toLowerCase(); // Convert the search value to lowercase
+    
+    return textTodo.includes(searchText); // Return the todos that include the search value
+  }); // Filter the todos that include the search value
 
   return (
     <>      
