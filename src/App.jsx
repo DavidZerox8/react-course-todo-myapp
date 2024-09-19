@@ -3,6 +3,7 @@ import { TodoSearch } from './components/todo/TodoSearch'
 import { TodoList } from './components/todo/TodoList'
 import { TodoItem } from './components/todo/TodoItem'
 import { CreateTodoButton } from './components/todo/CreateTodoButton'
+import React from 'react'
 import './App.css'
 import './assets/css/todo-default.css'
 
@@ -18,13 +19,22 @@ const defautlTodos = [
   { category_id: 1, id: 3, text: 'Llorar con la llorona', completed: false },
   { category_id: 2, id: 4, text: 'Hacer la comida', completed: false },
   { category_id: 2, id: 5, text: 'Hacer la cama', completed: false },
-  { category_id: 2, id: 6, text: 'Hacer la tarea', completed: false },
-  { category_id: 3, id: 7, text: 'Hacer la tarea', completed: true },
-  { category_id: 3, id: 8, text: 'Hacer la tarea', completed: false },
-  { category_id: 3, id: 9, text: 'Hacer la tarea', completed: false }
+  { category_id: 2, id: 6, text: 'Hacer la tarea ciencias', completed: false },
+  { category_id: 3, id: 7, text: 'Hacer la tarea biologia', completed: true },
+  { category_id: 3, id: 8, text: 'Hacer la tarea informatica', completed: false },
+  { category_id: 3, id: 9, text: 'Hacer la tarea español', completed: false }
 ];
 
 function App() {  
+
+  // eslint-disable-next-line no-unused-vars
+  const [todos, setTodos] = React.useState(defautlTodos); // Create a state to store the todos, and a function to update it | The initial value is the default todos
+  const [searchValue, setSearchValue] = React.useState(''); // Create a state to store the search value, and a function to update it | The initial value is an empty string
+  console.log("El usuario busco: " + searchValue); // Log the search value | This will be executed every time the component is rendered | Thc console log can be shown twice because the strict mode of React is enabled by default
+
+  //Derived state | Estado derivados
+  const completedTodos = todos.filter(todo => !!todo.completed).length; // Filter the todos that are completed and get the length of the array | The !! is used to convert the value to a boolean
+  const totalTodos     = todos.length; // Get the length of the todos array
 
   return (
     <>      
@@ -53,10 +63,10 @@ function App() {
           </div>
           <div className='flex align-center'>
             <div>
-              <TodoCounter completedTodos={5} totalTodos={20} /> {/* Pass the props to the component */}                      
+              <TodoCounter completedTodos={completedTodos} totalTodos={totalTodos} /> {/* Pass the props to the component */}                      
             </div>
             <div>
-              <TodoSearch />
+              <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
             </div>
           </div>
 
