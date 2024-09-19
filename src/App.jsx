@@ -29,12 +29,13 @@ function App() {
 
   // eslint-disable-next-line no-unused-vars
   const [todos, setTodos] = React.useState(defautlTodos); // Create a state to store the todos, and a function to update it | The initial value is the default todos
-  const [searchValue, setSearchValue] = React.useState(''); // Create a state to store the search value, and a function to update it | The initial value is an empty string
-  console.log("El usuario busco: " + searchValue); // Log the search value | This will be executed every time the component is rendered | Thc console log can be shown twice because the strict mode of React is enabled by default
+  const [searchValue, setSearchValue] = React.useState(''); // Create a state to store the search value, and a function to update it | The initial value is an empty string  
 
   //Derived state | Estado derivados
   const completedTodos = todos.filter(todo => !!todo.completed).length; // Filter the todos that are completed and get the length of the array | The !! is used to convert the value to a boolean
   const totalTodos     = todos.length; // Get the length of the todos array
+
+  const [filteredTodos, setFilteredTodos] = React.useState(todos); // Create a state to store the filtered todos, and a function to update it | The initial value is the todos array
 
   return (
     <>      
@@ -66,12 +67,12 @@ function App() {
               <TodoCounter completedTodos={completedTodos} totalTodos={totalTodos} /> {/* Pass the props to the component */}                      
             </div>
             <div>
-              <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
+              <TodoSearch defautlTodos={defautlTodos} searchValue={searchValue} setSearchValue={setSearchValue} filteredTodos={filteredTodos} setFilteredTodos={setFilteredTodos} />
             </div>
           </div>
 
           <TodoList>
-            {defautlTodos.map(todo => (
+            {filteredTodos.map(todo => (
               <TodoItem key={todo.id} text={todo.text} completed={todo.completed} />
             ))}
           </TodoList>          
