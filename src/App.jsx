@@ -6,6 +6,8 @@ import { CreateTodoButton } from './components/todo/CreateTodoButton'
 import React from 'react'
 import './App.css'
 import './assets/css/todo-default.css'
+import { CategoryList } from './components/todo/CategoryList'
+import { CategoryItem } from './components/todo/CategoryItem'
 
 const categories = [
   { id: 1, name: 'Home' },
@@ -27,12 +29,13 @@ const defautlTodos = [
 
 function App() {  
   
-  const [todos, setTodos] = React.useState(defautlTodos); // Create a state to store the todos, and a function to update it | The initial value is the default todos
+  const [todos, setTodos]             = React.useState(defautlTodos); // Create a state to store the todos, and a function to update it | The initial value is the default todos
   const [searchValue, setSearchValue] = React.useState(''); // Create a state to store the search value, and a function to update it | The initial value is an empty string  
 
   //Derived state | Estado derivados
   const completedTodos = todos.filter(todo => !!todo.completed).length; // Filter the todos that are completed and get the length of the array | The !! is used to convert the value to a boolean
   const totalTodos     = todos.length; // Get the length of the todos array
+
   const searchedTodos  = todos.filter(todo => {
     const textTodo   = todo.text.toLowerCase(); // Convert the text of the todo to lowercase
     const searchText = searchValue.toLowerCase(); // Convert the search value to lowercase
@@ -54,6 +57,17 @@ function App() {
     setTodos(newsTodos); // Update the todos state
   };
 
+  const selectedCategory = (categoryID) => {
+    // Filter the todos that have the category id
+    const newTodos = defautlTodos.filter(todo => todo.category_id === categoryID);
+    setTodos(newTodos); // Update the todos state
+  };
+
+  const selectedAll = () => {
+    const newsTodos = [...defautlTodos]; // Copy the todos array
+    setTodos(newsTodos); // Update the todos state
+  };
+
   return (
     <>      
       <div className='flex'>
@@ -61,13 +75,14 @@ function App() {
           <h2 className='text-center'>
             Categorías
           </h2>
-          <ul className='categoriesList'>
+          <CategoryList>
+            <li className="categoryItem" onClick={selectedAll}>
+              Todas
+            </li>
             {categories.map(category => (
-              <li className='categoryItem' key={category.id}>
-                {category.name}
-              </li>
+              <CategoryItem key={category.id} text={category.name} selectedCategory={() => selectedCategory(category.id)} />
             ))}
-          </ul>         
+          </CategoryList>         
           <button className="btn">
             Crear nueva categoría
           </button>
