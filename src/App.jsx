@@ -26,8 +26,7 @@ const defautlTodos = [
 ];
 
 function App() {  
-
-  // eslint-disable-next-line no-unused-vars
+  
   const [todos, setTodos] = React.useState(defautlTodos); // Create a state to store the todos, and a function to update it | The initial value is the default todos
   const [searchValue, setSearchValue] = React.useState(''); // Create a state to store the search value, and a function to update it | The initial value is an empty string  
 

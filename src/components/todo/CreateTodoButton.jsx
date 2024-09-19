@@ -1,3 +1,7 @@
+import { FaPlus } from "react-icons/fa";
+
+
+
 function CreateTodoButton() {
     return(
         <button onClick={
@@ -7,8 +11,8 @@ function CreateTodoButton() {
                 console.log(event.target);
                 alert('Click en el botón de añadir');
             }
-        } className="btn btn-add-todo">
-        +
+        } className="btn-alt btn-add-todo">
+            <FaPlus />        
         </button>
     );
 }
