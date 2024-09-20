@@ -32,6 +32,19 @@ function App() {
   const completedTodos = todos.filter(todo => !!todo.completed).length; // Filter the todos that are completed and get the length of the array | The !! is used to convert the value to a boolean
   const totalTodos     = todos.length; // Get the length of the todos array
 
+
+  console.log('todos 1');
+
+  // React.useEffect(() => {
+  //   console.log('todos ---- 2');
+  // });
+
+  React.useEffect(() => { // The useEffect will run when the component is mounted only once
+    console.log('todos ---- 2');
+  }, [totalTodos]); // The useEffect will only run when the totalTodos value changes
+
+  console.log('todos 3');
+
   const searchedTodos  = todos.filter(todo => {
     const textTodo   = todo.text.toLowerCase(); // Convert the text of the todo to lowercase
     const searchText = searchValue.toLowerCase(); // Convert the search value to lowercase
