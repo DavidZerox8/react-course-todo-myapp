@@ -1,4 +1,5 @@
-/* eslint-disable react/prop-types */
+import React from 'react'
+
 import { TodoCounter } from '../components/todo/TodoCounter'
 import { TodoSearch } from '../components/todo/TodoSearch'
 import { TodoList } from '../components/todo/TodoList'
@@ -15,74 +16,72 @@ import './App.css'
 import '../assets/css/todo-default.css'
 
 function AppUI() {
+
+  const {
+    categories, 
+    categorySearch,
+    setCategorySearch,                            
+    searchedTodos, 
+    todoCompleted, 
+    todoDeleted,                         
+    loading,
+    error } = React.useContext(TodoContext);
+
   return (
     <>      
-      <TodoContext.Consumer>
-        {({
-            categories, 
-            categorySearch,
-            setCategorySearch,                            
-            searchedTodos, 
-            todoCompleted, 
-            todoDeleted,                         
-            loading,
-            error
-        }) => (
-          <div className='flex'>
-            <div className='card'>
-              <h2 className='text-center'>
-                Categorías
-              </h2>
-              <CategoryList>
-                <li className="categoryItem" onClick={() => {
-                  setCategorySearch(null);
-                }}>
-                  Todas
-                </li>
-                {categories.map(category => (
-                  <CategoryItem key={category.id} id={category.id} text={category.name} categorySearch={categorySearch} setCategorySearch={setCategorySearch} />
-                ))}
-              </CategoryList>         
-              <button className="btn">
-                Crear nueva categoría
-              </button>
+      <div className='flex'>
+        <div className='card'>
+          <h2 className='text-center'>
+            Categorías
+          </h2>
+          <CategoryList>
+            <li className="categoryItem" onClick={() => {
+              setCategorySearch(null);
+            }}>
+              Todas
+            </li>
+            {categories.map(category => (
+              <CategoryItem key={category.id} id={category.id} text={category.name} categorySearch={categorySearch} setCategorySearch={setCategorySearch} />
+            ))}
+          </CategoryList>         
+          <button className="btn">
+            Crear nueva categoría
+          </button>
+        </div>
+        <div className='flex-1'>
+          <div className='flex align-center'>
+            <h1>
+              Mis tareas
+            </h1>
+            <CreateTodoButton />
+          </div>
+          <div className='flex align-center'>
+            <div>
+              <TodoCounter />
             </div>
-            <div className='flex-1'>
-              <div className='flex align-center'>
-                <h1>
-                  Mis tareas
-                </h1>
-                <CreateTodoButton />
-              </div>
-              <div className='flex align-center'>
-                <div>
-                  <TodoCounter />
-                </div>
-                <div>
-                  <TodoSearch />
-                </div>
-              </div>
-
-              <TodoList>
-
-                { loading && <TodoLoading></TodoLoading> }
-                { error && <TodoError></TodoError> }
-                { (!loading && searchedTodos.length === 0) && <EmptyTodo></EmptyTodo> }
-
-                {searchedTodos.map(todo => (
-                  <TodoItem 
-                    key={todo.id}   
-                    text={todo.text} 
-                    completed={todo.completed} 
-                    onCompleted={() => todoCompleted(todo.id)} 
-                    onDeleted={() => todoDeleted(todo.id)}                
-                  />
-                ))}
-              </TodoList>          
+            <div>
+              <TodoSearch />
             </div>
           </div>
-        )}
-      </TodoContext.Consumer>
+
+          <TodoList>
+
+            { loading && <TodoLoading></TodoLoading> }
+            { error && <TodoError></TodoError> }
+            { (!loading && searchedTodos.length === 0) && <EmptyTodo></EmptyTodo> }
+
+            {searchedTodos.map(todo => (
+              <TodoItem 
+                key={todo.id}   
+                text={todo.text} 
+                completed={todo.completed} 
+                onCompleted={() => todoCompleted(todo.id)} 
+                onDeleted={() => todoDeleted(todo.id)}                
+              />
+            ))}
+          </TodoList>          
+        </div>
+      </div>
     </>
   );
 }
