@@ -2,17 +2,37 @@ import React from 'react';
 
 function useLocalStorage(itemName, initialValue) {  
 
-    let storedItem = localStorage.getItem(itemName);
-    let parsedItems;
+    const [item, setItem]       = React.useState(initialValue);    
+    const [error, setError]     = React.useState(false);
+    const [loading, setLoading] = React.useState(true);
 
-    if (!storedItem) { 
-        parsedItems = initialValue;
-        localStorage.setItem(itemName, JSON.stringify(parsedItems)); 
-    } else {
-        parsedItems = JSON.parse(storedItem);  
-    }  
-
-    const [item, setItem] = React.useState((parsedItems));
+    React.useEffect(() => {        
+        setTimeout(() => {
+            try {
+            
+                let storedItem = localStorage.getItem(itemName);
+                let parsedItems;
+    
+                if (!storedItem) { 
+                    parsedItems = initialValue;
+                    localStorage.setItem(itemName, JSON.stringify(parsedItems)); 
+                } else {
+                    parsedItems = JSON.parse(storedItem);
+                    setItem(parsedItems);
+                }
+    
+                setLoading(false);
+    
+            } catch (error) {
+    
+                console.error(error);
+    
+                setLoading(false);
+                setError(true);
+    
+            }
+        }, 1000);
+    }, [itemName, initialValue]);      
 
     const saveItem = (newItem) => {
         const stringItem = JSON.stringify(newItem); // Convert the new todos to a string
@@ -20,10 +40,12 @@ function useLocalStorage(itemName, initialValue) {
         setItem(newItem); // Update the todos state
     };
 
-    return [
+    return {
         item,
-        saveItem
-    ];
+        saveItem,
+        loading,
+        error
+    };
 }
   
 export { useLocalStorage }

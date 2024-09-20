@@ -20,7 +20,9 @@ function AppUI({
     todoCompleted, 
     todoDeleted, 
     completedTodos, 
-    totalTodos
+    totalTodos,
+    loading,
+    error
 }) {
   return (
     <>      
@@ -58,9 +60,14 @@ function AppUI({
           </div>
 
           <TodoList>
+
+            { loading && <p>Cargando...</p> }
+            { error && <p>Ocurrio un error, lo estamos resolviendo</p> }
+            { (!loading && !searchedTodos.length === 0) && <p>¡Agrega un nuevo TODO :D!</p> }
+
             {searchedTodos.map(todo => (
               <TodoItem 
-                key={todo.id} 
+                key={todo.id}   
                 text={todo.text} 
                 completed={todo.completed} 
                 onCompleted={() => todoCompleted(todo.id)} 
