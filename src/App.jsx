@@ -15,21 +15,34 @@ const categories = [
   { id: 3, name: 'Work' }
 ];
 
-const defautlTodos = [
-  { category_id: 1, id: 1, text: 'Cortar cebolla', completed: true },
-  { category_id: 1, id: 2, text: 'Tomar el curso de intro a React', completed: false },
-  { category_id: 1, id: 3, text: 'Llorar con la llorona', completed: false },
-  { category_id: 2, id: 4, text: 'Hacer la comida', completed: false },
-  { category_id: 2, id: 5, text: 'Hacer la cama', completed: false },
-  { category_id: 2, id: 6, text: 'Hacer la tarea ciencias', completed: false },
-  { category_id: 3, id: 7, text: 'Hacer la tarea biologia', completed: true },
-  { category_id: 3, id: 8, text: 'Hacer la tarea informatica', completed: false },
-  { category_id: 3, id: 9, text: 'Hacer la tarea español', completed: false }
-];
+// const defautlTodos = [
+//   { category_id: 1, id: 1, text: 'Cortar cebolla', completed: true },
+//   { category_id: 1, id: 2, text: 'Tomar el curso de intro a React', completed: false },
+//   { category_id: 1, id: 3, text: 'Llorar con la llorona', completed: false },
+//   { category_id: 2, id: 4, text: 'Hacer la comida', completed: false },
+//   { category_id: 2, id: 5, text: 'Hacer la cama', completed: false },
+//   { category_id: 2, id: 6, text: 'Hacer la tarea ciencias', completed: false },
+//   { category_id: 3, id: 7, text: 'Hacer la tarea biologia', completed: true },
+//   { category_id: 3, id: 8, text: 'Hacer la tarea informatica', completed: false },
+//   { category_id: 3, id: 9, text: 'Hacer la tarea español', completed: false }
+// ];
+
+// localStorage.setItem('tasks_v1', JSON.stringify(defautlTodos));
+// localStorage.removeItem('tasks_v1');
 
 function App() {  
+
+  let storedTodos = localStorage.getItem('tasks_v1');
+  let parsedTodos;
+
+  if (!storedTodos) { 
+    parsedTodos = [];
+    localStorage.setItem('tasks_v1', JSON.stringify(parsedTodos)); 
+  } else {
+    parsedTodos = JSON.parse(storedTodos);  
+  }  
   
-  const [todos, setTodos]             = React.useState(defautlTodos); // Create a state to store the todos, and a function to update it | The initial value is the default todos
+  const [todos, setTodos]             = React.useState(parsedTodos); // Create a state to store the todos, and a function to update it | The initial value is the default todos
   const [searchValue, setSearchValue] = React.useState(''); // Create a state to store the search value, and a function to update it | The initial value is an empty string  
 
   //Derived state | Estado derivados
@@ -47,24 +60,33 @@ function App() {
     const newsTodos = [...todos]; // Copy the todos array
     const todoIndex = newsTodos.findIndex(todo => todo.id === todoID); // Find the index of the todo to update
     newsTodos[todoIndex].completed = !newsTodos[todoIndex].completed; // Update the completed value of the todo
-    setTodos(newsTodos); // Update the todos state
+    localStorage.setItem('tasks_v1', JSON.stringify(newsTodos));
+    saveTodos(newsTodos); // Update the todos state
   };
 
   const todoDeleted = (todoID) => {
     const newsTodos = [...todos]; // Copy the todos array
     const todoIndex = newsTodos.findIndex(todo => todo.id === todoID); // Find the index of the todo to delete
-    newsTodos.splice(todoIndex, 1); // Delete the todo | The second parameter is the number of elements to delete
-    setTodos(newsTodos); // Update the todos state
+    // newsTodos[todoIndex].deleted = true; // Update the deleted value of the todo
+    newsTodos.splice(todoIndex, 1); // Delete the todo | The second parameter is the number of elements to delete    
+    localStorage.setItem('tasks_v1', JSON.stringify(newsTodos));
+    saveTodos(newsTodos); // Update the todos state
+  };
+
+  const saveTodos = (newTodos) => {
+    const stringTodos = JSON.stringify(newTodos); // Convert the new todos to a string
+    localStorage.setItem('tasks_v1', stringTodos); // Save the new todos in the local storage
+    setTodos(newTodos); // Update the todos state
   };
 
   const selectedCategory = (categoryID) => {
     // Filter the todos that have the category id
-    const newTodos = defautlTodos.filter(todo => todo.category_id === categoryID);
+    const newTodos = parsedTodos.filter(todo => todo.category_id === categoryID);
     setTodos(newTodos); // Update the todos state
   };
 
   const selectedAll = () => {
-    const newsTodos = [...defautlTodos]; // Copy the todos array
+    const newsTodos = [...parsedTodos]; // Copy the todos array
     setTodos(newsTodos); // Update the todos state
   };
 
@@ -110,7 +132,7 @@ function App() {
                 text={todo.text} 
                 completed={todo.completed} 
                 onCompleted={() => todoCompleted(todo.id)} 
-                onDeleted={() => todoDeleted(todo.id)}
+                onDeleted={() => todoDeleted(todo.id)}                
               />
             ))}
           </TodoList>          
