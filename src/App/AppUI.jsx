@@ -1,23 +1,26 @@
 import React from 'react'
 
-import { TodoCounter } from '../components/todo/TodoCounter'
-import { TodoSearch } from '../components/todo/TodoSearch'
-import { TodoList } from '../components/todo/TodoList'
-import { TodoItem } from '../components/todo/TodoItem'
-import { CreateTodoButton } from '../components/todo/CreateTodoButton'
-import { CategoryList } from '../components/todo/CategoryList'
-import { CategoryItem } from '../components/todo/CategoryItem'
-import { TodoLoading } from '../components/todo/TodoLoading'
-import { TodoError } from '../components/todo/TodoError'
-import { EmptyTodo } from '../components/todo/EmptyTodo'
-import { TodoContext } from '../components/todo/TodoContext'
+import { TodoCounter } from '../components/TodoComponents/TodoCounter'
+import { TodoSearch } from '../components/TodoComponents/TodoSearch'
+import { TodoList } from '../components/TodoComponents/TodoList'
+import { TodoItem } from '../components/TodoComponents/TodoItem'
+import { CreateTodoButton } from '../components/TodoComponents/CreateTodoButton'
+import { CategoryList } from '../components/TodoComponents/CategoryList'
+import { CategoryItem } from '../components/TodoComponents/CategoryItem'
+import { TodoLoading } from '../components/TodoComponents/TodoLoading'
+import { TodoError } from '../components/TodoComponents/TodoError'
+import { EmptyTodo } from '../components/TodoComponents/EmptyTodo'
+import { TodoContext } from '../components/TodoComponents/TodoContext'
 
 import './App.css'
 import '../assets/css/todo-default.css'
+import { Modal } from '../components/Modal'
+import { TodoForm } from '../components/TodoComponents/TodoForm'
 
 function AppUI() {
 
   const {
+    openModal,
     categories, 
     categorySearch,
     setCategorySearch,                            
@@ -54,6 +57,11 @@ function AppUI() {
               Mis tareas
             </h1>
             <CreateTodoButton />
+            { openModal && (
+                <Modal> 
+                  <TodoForm />
+                </Modal>
+            )}
           </div>
           <div className='flex align-center'>
             <div>

@@ -1,0 +1,83 @@
+/* buttons */
+
+.form-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.form-button:hover {
+    background-color: #45a049;
+}
+
+.form-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.button-success {
+    background-color: #4CAF50;
+}
+
+.button-success:hover {
+    background-color: #45a049;
+}
+
+.button-danger {
+    background-color: #f44336;
+}
+
+.button-danger:hover {
+    background-color: #da190b;
+}
+
+/* inputs */
+
+textarea {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: rgb(60, 8, 102);
+}
+
+textarea::placeholder {
+    color: #ffffff;
+}
+
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: rgb(60, 8, 102);
+}
+
+/* labels */
+
+label {    
+    font-size: 1.0rem;
+    text-align: center;
+}
+
+/* titles */
+
+.form-title
+{
+    font-size: 1.3rem;
+    text-align: center;    
+    display: block;
+    margin-bottom: 10px;
+}

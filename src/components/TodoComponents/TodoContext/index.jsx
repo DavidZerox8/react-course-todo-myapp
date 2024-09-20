@@ -15,6 +15,7 @@ function TodoProvider ({ children }) {
     const { item: todos, saveItem: saveTodos , error, loading } = useLocalStorage('tasks_v1', []); // Create a state to store the todos, and a function to update it | The initial value is the default todos
     const [ searchValue, setSearchValue ] = React.useState(''); // Create a state to store the search value, and a function to update it | The initial value is an empty string  
     const [ categorySearch, setCategorySearch ] = React.useState(null); // Create a state to store the category search value, and a function to update it | The initial value is an empty string
+    const [ openModal, setOpenModal ] = React.useState(false); // Create a state to store the modal state, and a function to update it | The initial value is false
 
     //Derived state | Estado derivados
     const completedTodos = todos.filter(todo => !!todo.completed).length; // Filter the todos that are completed and get the length of the array | The !! is used to convert the value to a boolean
@@ -25,7 +26,7 @@ function TodoProvider ({ children }) {
         const searchText = searchValue.toLowerCase(); // Convert the search value to lowercase
 
         let res;
-        categorySearch ? res = textTodo.includes(searchText) && todo.category_id === categorySearch : res = textTodo.includes(searchText);
+        categorySearch ? res = textTodo.includes(searchText) && todo.category_id == categorySearch : res = textTodo.includes(searchText);
             
         return res; // Return the todos that include the search value
     }); // Filter the todos that include the search value
@@ -44,20 +45,35 @@ function TodoProvider ({ children }) {
         saveTodos(newsTodos); // Update the todos state
     };  
 
+    const addTodo = (category_id, text) => {
+        const newTodo = {
+            id: todos.length + 1,
+            category_id,
+            text,
+            completed: false
+        };
+
+        const newTodos = [...todos, newTodo];
+        saveTodos(newTodos);
+    }
+
     return (
         <TodoContext.Provider value={{
             categories, 
             categorySearch,
-            setCategorySearch,    
-            searchValue, 
-            setSearchValue, 
-            searchedTodos, 
-            todoCompleted, 
-            todoDeleted, 
+            searchValue,
+            searchedTodos,
             completedTodos, 
             totalTodos,
             loading,
-            error
+            error,
+            openModal,
+            setOpenModal,
+            setCategorySearch,
+            setSearchValue,
+            todoCompleted,
+            todoDeleted,
+            addTodo
         }}>
             { children }
         </TodoContext.Provider>
