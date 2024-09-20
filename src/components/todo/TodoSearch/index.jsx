@@ -1,6 +1,12 @@
 /* eslint-disable react/prop-types */
-function TodoSearch({ setSearchValue, searchValue }) 
-{    
+
+import React from 'react';
+import { TodoContext } from '../TodoContext';
+
+function TodoSearch() {    
+
+    const { setSearchValue, searchValue } = React.useContext(TodoContext); // Get the setSearchValue and searchValue from the context
+
     return(
         <input 
             value={searchValue}  // Set the value of the input

@@ -1,6 +1,12 @@
 /* eslint-disable react/prop-types */
-function TodoCounter({ totalTodos, completedTodos }) 
-{
+
+import React from 'react';
+import { TodoContext } from '../TodoContext';
+
+function TodoCounter() {
+
+    const { totalTodos, completedTodos } = React.useContext(TodoContext);
+
     let message = `Has completado ${ completedTodos } de ${totalTodos} Tareas`;
     if (totalTodos === 0) message = 'No hay tareas';
     else if (completedTodos === totalTodos) message = 'Has completado todas las tareas';

@@ -3,7 +3,7 @@ function EmptyTodo()
 {
     return(
         <p>
-            Añade una nueva tarea...
+            Añade una nueva tarea
         </p>
     );
 }
