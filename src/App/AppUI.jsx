@@ -6,6 +6,9 @@ import { TodoItem } from '../components/todo/TodoItem'
 import { CreateTodoButton } from '../components/todo/CreateTodoButton'
 import { CategoryList } from '../components/todo/CategoryList'
 import { CategoryItem } from '../components/todo/CategoryItem'
+import { TodoLoading } from '../components/todo/TodoLoading'
+import { TodoError } from '../components/todo/TodoError'
+import { EmptyTodo } from '../components/todo/EmptyTodo'
 
 import './App.css'
 import '../assets/css/todo-default.css'
@@ -63,9 +66,9 @@ function AppUI({
 
           <TodoList>
 
-            { loading && <p>Cargando...</p> }
-            { error && <p>Ocurrio un error, lo estamos resolviendo</p> }
-            { (!loading && !searchedTodos.length === 0) && <p>¡Agrega un nuevo TODO :D!</p> }
+            { loading && <TodoLoading></TodoLoading> }
+            { error && <TodoError></TodoError> }
+            { (!loading && !searchedTodos.length === 0) && <EmptyTodo></EmptyTodo> }
 
             {searchedTodos.map(todo => (
               <TodoItem 

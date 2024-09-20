@@ -189,3 +189,26 @@ ul {
 .btn-cursor {
     cursor: pointer;
 }
+
+/* loading skeletons */
+@keyframes skeleton-loading {
+    0% {
+        background-position: right;
+    }
+    50% {
+        background-position: left;
+    }
+    100% {
+        background-position: right;
+    }
+}
+
+.skeleton {
+    content: ' ';
+    cursor: progress;
+    padding: 18px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--main-color) 40%, var(--main-color-light), var(--main-color) 60%) right / 300% 100%;
+    animation: skeleton-loading 1.5s linear infinite;
+    opacity: 0.3;
+}
