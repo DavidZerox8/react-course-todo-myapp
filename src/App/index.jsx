@@ -1,13 +1,14 @@
-import { TodoCounter } from './components/todo/TodoCounter'
-import { TodoSearch } from './components/todo/TodoSearch'
-import { TodoList } from './components/todo/TodoList'
-import { TodoItem } from './components/todo/TodoItem'
-import { CreateTodoButton } from './components/todo/CreateTodoButton'
 import React from 'react'
+import { TodoCounter } from '../components/todo/TodoCounter'
+import { TodoSearch } from '../components/todo/TodoSearch'
+import { TodoList } from '../components/todo/TodoList'
+import { TodoItem } from '../components/todo/TodoItem'
+import { CreateTodoButton } from '../components/todo/CreateTodoButton'
+import { CategoryList } from '../components/todo/CategoryList'
+import { CategoryItem } from '../components/todo/CategoryItem'
+import { useLocalStorage } from './Hooks/useLocalStorage'
 import './App.css'
-import './assets/css/todo-default.css'
-import { CategoryList } from './components/todo/CategoryList'
-import { CategoryItem } from './components/todo/CategoryItem'
+import '../assets/css/todo-default.css'
 
 const categories = [
   { id: 1, name: 'Home' },
@@ -15,7 +16,6 @@ const categories = [
   { id: 3, name: 'Work' }
 ];
 
-// eslint-disable-next-line no-unused-vars
 const defautlTodos = [
   { category_id: 1, id: 1, text: 'Cortar cebolla', completed: true },
   { category_id: 1, id: 2, text: 'Tomar el curso de intro a React', completed: false },
@@ -30,32 +30,6 @@ const defautlTodos = [
 
 // localStorage.setItem('tasks_v1', JSON.stringify(defautlTodos));
 //localStorage.removeItem('tasks_v1');
-
-function useLocalStorage(itemName, initialValue) {  
-
-  let storedItem = localStorage.getItem(itemName);
-  let parsedItems;
-
-  if (!storedItem) { 
-    parsedItems = initialValue;
-    localStorage.setItem(itemName, JSON.stringify(parsedItems)); 
-  } else {
-    parsedItems = JSON.parse(storedItem);  
-  }  
-
-  const [item, setItem] = React.useState((parsedItems));
-
-  const saveItem = (newItem) => {
-    const stringItem = JSON.stringify(newItem); // Convert the new todos to a string
-    localStorage.setItem(itemName, stringItem); // Save the new todos in the local storage
-    setItem(newItem); // Update the todos state
-  };
-
-  return [
-    item,
-    saveItem
-  ];
-}
 
 function App() {    
   
