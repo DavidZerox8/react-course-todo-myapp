@@ -12,8 +12,8 @@ import '../assets/css/todo-default.css'
 
 function AppUI({
     categories, 
-    selectedCategory, 
-    selectedAll, 
+    categorySearch,
+    setCategorySearch,    
     searchValue, 
     setSearchValue, 
     searchedTodos, 
@@ -32,11 +32,13 @@ function AppUI({
             Categorías
           </h2>
           <CategoryList>
-            <li className="categoryItem" onClick={selectedAll}>
+            <li className="categoryItem" onClick={() => {
+              setCategorySearch(null);
+            }}>
               Todas
             </li>
             {categories.map(category => (
-              <CategoryItem key={category.id} text={category.name} selectedCategory={() => selectedCategory(category.id)} />
+              <CategoryItem key={category.id} id={category.id} text={category.name} categorySearch={categorySearch} setCategorySearch={setCategorySearch} />
             ))}
           </CategoryList>         
           <button className="btn">

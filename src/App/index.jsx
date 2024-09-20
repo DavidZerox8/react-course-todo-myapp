@@ -21,13 +21,14 @@ const defautlTodos = [
   { category_id: 3, id: 9, text: 'Hacer la tarea español', completed: false }
 ];
 
-// localStorage.setItem('tasks_v1', JSON.stringify(defautlTodos));
-//localStorage.removeItem('tasks_v1');
+  //localStorage.setItem('tasks_v1', JSON.stringify(defautlTodos));
+  //localStorage.removeItem('tasks_v1');
 
 function App() {    
   
   const { item: todos, saveItem: saveTodos , error, loading } = useLocalStorage('tasks_v1', []); // Create a state to store the todos, and a function to update it | The initial value is the default todos
   const [ searchValue, setSearchValue ] = React.useState(''); // Create a state to store the search value, and a function to update it | The initial value is an empty string  
+  const [ categorySearch, setCategorySearch ] = React.useState(null); // Create a state to store the category search value, and a function to update it | The initial value is an empty string
 
   //Derived state | Estado derivados
   const completedTodos = todos.filter(todo => !!todo.completed).length; // Filter the todos that are completed and get the length of the array | The !! is used to convert the value to a boolean
@@ -36,44 +37,31 @@ function App() {
   const searchedTodos  = todos.filter(todo => {
     const textTodo   = todo.text.toLowerCase(); // Convert the text of the todo to lowercase
     const searchText = searchValue.toLowerCase(); // Convert the search value to lowercase
-    
-    return textTodo.includes(searchText); // Return the todos that include the search value
+
+    let res;
+    categorySearch ? res = textTodo.includes(searchText) && todo.category_id === categorySearch : res = textTodo.includes(searchText);
+        
+    return res; // Return the todos that include the search value
   }); // Filter the todos that include the search value
 
   const todoCompleted = (todoID) => {
     const newsTodos = [...todos]; // Copy the todos array
     const todoIndex = newsTodos.findIndex(todo => todo.id === todoID); // Find the index of the todo to update
-    newsTodos[todoIndex].completed = !newsTodos[todoIndex].completed; // Update the completed value of the todo
-    localStorage.setItem('tasks_v1', JSON.stringify(newsTodos));
+    newsTodos[todoIndex].completed = !newsTodos[todoIndex].completed; // Update the completed value of the todo    
     saveTodos(newsTodos); // Update the todos state
   };
 
   const todoDeleted = (todoID) => {
     const newsTodos = [...todos]; // Copy the todos array
     const todoIndex = newsTodos.findIndex(todo => todo.id === todoID); // Find the index of the todo to delete
-    // newsTodos[todoIndex].deleted = true; // Update the deleted value of the todo
-    newsTodos.splice(todoIndex, 1); // Delete the todo | The second parameter is the number of elements to delete    
-    localStorage.setItem('tasks_v1', JSON.stringify(newsTodos));
+    newsTodos.splice(todoIndex, 1); // Delete the todo | The second parameter is the number of elements to delete        
     saveTodos(newsTodos); // Update the todos state
   };  
 
-  // eslint-disable-next-line no-unused-vars
-  const selectedCategory = (categoryID) => {
-    // Filter the todos that have the category id
-    // const newTodos = parsedTodos.filter(todo => todo.category_id === categoryID);
-    // setTodos(newTodos); // Update the todos state
-  };
-
-  const selectedAll = () => {
-    // const newsTodos = [...parsedTodos]; // Copy the todos array
-    // setTodos(newsTodos); // Update the todos state
-  };
 
   return (
     <AppUI 
-    categories={ categories }
-    selectedCategory={ selectedCategory }
-    selectedAll={ selectedAll}
+    categories={ categories }    
     searchValue={ searchValue }
     setSearchValue={ setSearchValue }
     searchedTodos={ searchedTodos }
@@ -83,6 +71,8 @@ function App() {
     totalTodos={ totalTodos }
     loading={ loading }
     error={ error }
+    categorySearch={ categorySearch }
+    setCategorySearch={ setCategorySearch }
     />
   )
 }

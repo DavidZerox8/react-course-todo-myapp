@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
-function CategoryItem({ text, selectedCategory }) {
+function CategoryItem({id, text, setCategorySearch }) {
     return(
-        <li className="categoryItem" onClick={selectedCategory}>            
+        <li className="categoryItem" onClick={() => {            
+            setCategorySearch(id);
+        }}>            
             { text }           
         </li>
     );
